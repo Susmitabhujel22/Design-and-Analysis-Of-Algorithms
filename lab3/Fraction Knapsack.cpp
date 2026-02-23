@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+struct Item
+{
+    int weight;
+    int profit;
+    float ratio;
+};
+
+void sortItems(Item arr[], int n)
+{
+    for(int i = 0; i < n - 1; i++)
+    {
+        for(int j = i + 1; j < n; j++)
+        {
+            if(arr[i].ratio < arr[j].ratio)
+            {
+                Item temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+}
+
+int main()
+{
+    int n, capacity;
+
+    cout << "Enter number of items: ";
+    cin >> n;
+
+    Item arr[n];
+
+    cout << "Enter weight and profit of each item:\n";
+    cout<<"Wi"<<" "<<"Vi\n";
+    for(int i = 0; i < n; i++)
+    {
+        cin >> arr[i].weight >> arr[i].profit;
+        arr[i].ratio = (float)arr[i].profit / arr[i].weight;
+    }
+
+    cout << "Enter knapsack capacity: ";
+    cin >> capacity;
+
+    sortItems(arr, n);
+
+    float totalProfit = 0.0;
+
+    for(int i = 0; i < n; i++)
+    {
+        if(capacity >= arr[i].weight)
+        {
+            totalProfit += arr[i].profit;
+            capacity -= arr[i].weight;
+        }
+        else
+        {
+            totalProfit += arr[i].ratio * capacity;
+            break;
+        }
+    }
+
+    cout << "Maximum Profit = " << totalProfit;
+
+    return 0;
+}
+
